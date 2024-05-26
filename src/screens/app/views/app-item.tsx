@@ -1,5 +1,7 @@
+import React from 'react';
 import RNApkInstaller from '@dominicvonk/react-native-apk-installer';
 import {
+  ButtonText,
   HStack,
   Image,
   ImageBackground,
@@ -12,12 +14,11 @@ import Toast from 'react-native-toast-message';
 import { v4 as uuidV4 } from 'uuid';
 import { Config } from '../../../config';
 import { ApiResponse } from '../../../types';
+import { Button } from '@gluestack-ui/themed';
 
 export const AppItem: FC<{
   app: ApiResponse.App;
-  isFocused: boolean;
-  onFocus: (id: string) => void;
-}> = ({ app, isFocused, onFocus }) => {
+}> = ({ app }) => {
   const [percent, setPercent] = useState<number>(0);
   const [isLoading, setLoading] = useState<boolean>(false);
   // const [isInstalled, setInstalled] = useState<boolean | null>(null);
@@ -78,14 +79,16 @@ export const AppItem: FC<{
   };
 
   return (
-    <View width="20%" backgroundColor="rgba(151, 150, 173, 0.8)">
+    <View flex={1} backgroundColor="rgba(151, 150, 173, 0.8)">
       <View flex={1}>
-        <Image
+        <ImageBackground
           resizeMode="cover"
           flex={1}
-          w="$full"
+          style={{ width: '100%', height: '100%' }}
           aspectRatio={2 / 1}
-          source={`${Config.STORAGE_BASE_URL}/${app.bannerUrl}`}
+          source={{
+            uri: `${Config.STORAGE_BASE_URL}/${app.bannerUrl}`,
+          }}
           alt={app.name}
         />
       </View>
@@ -104,16 +107,18 @@ export const AppItem: FC<{
             <Text bold color="$white">
               {app.name}
             </Text>
-            {/* <HStack rowGap={8} columnGap={8} alignItems="center">
-              {isLoading ? (
-                <CircularProgress
-                  radius={14}
-                  initialValue={0}
-                  showProgressValue={false}
-                  value={percent}
-                  activeStrokeColor={'#2465FD'}
-                  activeStrokeSecondaryColor={'#C25AFF'}
-                />
+            <HStack rowGap={8} columnGap={8} alignItems="center">
+              {/* {isLoading ? (
+                <>
+                  <CircularProgress
+                    radius={14}
+                    initialValue={0}
+                    showProgressValue={false}
+                    value={percent}
+                    activeStrokeColor={'#2465FD'}
+                    activeStrokeSecondaryColor={'#C25AFF'}
+                  />
+                </>
               ) : (
                 <Button
                   size="sm"
@@ -122,12 +127,11 @@ export const AppItem: FC<{
                   borderWidth={isFocused ? 2 : undefined}
                   onFocus={() => {
                     onFocus(app.id);
-                  }}
-                >
+                  }}>
                   <ButtonText>Cài đặt</ButtonText>
                 </Button>
-              )}
-            </HStack> */}
+              )} */}
+            </HStack>
           </View>
         </View>
       </HStack>

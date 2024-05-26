@@ -13,9 +13,23 @@ import { useFetchStoreQuery } from '../../api';
 import { useAppSelector } from '../../hooks';
 import { AppItem } from './views/app-item';
 import { UpdateAppVersion } from './views/update-app-version';
+import { TouchableOpacity } from 'react-native';
+// import { useTVEventHandler } from 'react-native';
 
 export const AppScreen = () => {
   const [focusedElement, setFocusedElement] = useState<string | null>(null);
+
+  // const myTVEventHandler = evt => {
+  //   switch (evt.eventType) {
+  //     case 'up':
+  //       setFocusedElement();
+  //   }
+  //   console.log(2222, evt.eventType);
+  //   setLastEventType(evt.eventType);
+  // };
+
+  // useTVEventHandler(myTVEventHandler);
+
   const checkInstallAppPermission = async () => {
     const permission = await RNApkInstaller.haveUnknownAppSourcesPermission();
     if (!permission) {
@@ -45,22 +59,23 @@ export const AppScreen = () => {
                 </Text>
               </View>
               <View py={16}>
-                <ScrollView
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}>
-                  <HStack flex={1} gap={16}>
-                    {category.apps.map(app => {
-                      return (
+                <View flexDirection="row" flexWrap="wrap" flex={1}>
+                  {category.apps.map(app => {
+                    return (
+                      <View
+                        as={TouchableOpacity}
+                        width="20%"
+                        key={app.id}
+                        px={8}
+                        py={8}>
                         <AppItem
-                          key={app.id}
                           app={app}
                           isFocused={focusedElement === app.id}
-                          onFocus={setFocusedElement}
                         />
-                      );
-                    })}
-                  </HStack>
-                </ScrollView>
+                      </View>
+                    );
+                  })}
+                </View>
               </View>
               <Divider />
             </Fragment>
