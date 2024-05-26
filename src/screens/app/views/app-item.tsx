@@ -11,6 +11,7 @@ import RNFS from 'react-native-fs';
 import Toast from 'react-native-toast-message';
 import { v4 as uuidV4 } from 'uuid';
 import { Config } from '../../../config';
+import { ApiResponse } from '../../../types';
 
 export const AppItem: FC<{
   app: ApiResponse.App;
