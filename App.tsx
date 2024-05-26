@@ -5,8 +5,8 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, { Suspense, useRef } from 'react';
+import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -24,12 +24,24 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { Provider } from 'react-redux';
+import { persistor, store } from './src/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { GluestackUIProvider } from '@gluestack-ui/themed';
+import { gluestackConfig } from './src/theme';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { navigationRef } from './src/navigations/navigation-ref';
+import RNBootSplash from 'react-native-bootsplash';
+import { Host } from 'react-native-portalize';
+import Toast from 'react-native-toast-message';
+import { Main } from './src/main';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
+function Section({ children, title }: SectionProps): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -61,6 +73,50 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  const currentRouteRef = useRef<string>();
+
+  const onNavigationContainerReady = () => {
+    currentRouteRef.current = navigationRef.current?.getCurrentRoute()?.name;
+    RNBootSplash.hide({ fade: true });
+  };
+
+  return (
+    <>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <SafeAreaProvider>
+            <GluestackUIProvider config={gluestackConfig}>
+              <NavigationContainer
+                ref={navigationRef}
+                onReady={onNavigationContainerReady}
+                onStateChange={async () => {
+                  const previousRouteName = currentRouteRef.current;
+                  const currentRouteName =
+                    navigationRef.current?.getCurrentRoute()?.name || '';
+
+                  if (previousRouteName !== currentRouteName) {
+                    currentRouteRef.current = currentRouteName;
+
+                    // await analytics().logScreenView({ screen_name: currentRouteName });
+                  }
+                }}
+                linking={{
+                  prefixes: ['/'],
+                }}>
+                <Host>
+                  <Suspense>
+                    <Main />
+                    <Toast />
+                  </Suspense>
+                </Host>
+              </NavigationContainer>
+            </GluestackUIProvider>
+          </SafeAreaProvider>
+        </PersistGate>
+      </Provider>
+    </>
+  );
 
   return (
     <SafeAreaView style={backgroundStyle}>
