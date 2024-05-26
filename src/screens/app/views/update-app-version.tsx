@@ -1,3 +1,4 @@
+import React from 'react';
 import RNApkInstaller from '@dominicvonk/react-native-apk-installer';
 import {
   Button,

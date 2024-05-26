@@ -6,10 +6,12 @@ import { api } from './api';
 const appStoreApi = api.injectEndpoints({
   endpoints: builder => ({
     fetchStore: builder.query<ApiResponse.AppStore, void>({
-      query: () => ({
-        url: `${Config.STORAGE_BASE_URL}/app-store/app-store.json`,
-        method: API_METHODS.GET,
-      }),
+      query: () => {
+        return {
+          url: 'https://sapi.mttn.vn/app-store/categories',
+          method: API_METHODS.GET,
+        };
+      },
     }),
   }),
 });

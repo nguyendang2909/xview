@@ -6,6 +6,7 @@ import {
   Image,
   ImageBackground,
   Text,
+  VStack,
   View,
 } from '@gluestack-ui/themed';
 import { FC, useState } from 'react';
@@ -78,6 +79,7 @@ export const AppItem: FC<{
       });
   };
 
+  console.log(111, app.bundleId);
   return (
     <View flex={1} backgroundColor="rgba(151, 150, 173, 0.8)">
       <View flex={1}>
@@ -94,19 +96,36 @@ export const AppItem: FC<{
       </View>
       <HStack flex={1} gap={8} px={8} py={8}>
         <View>
-          <ImageBackground
+          <Image
             height={40}
             width={40}
-            src={`${Config.STORAGE_BASE_URL}/${app.iconUrl}`}
-            borderRadius={16}
+            source={{
+              uri: `${Config.STORAGE_BASE_URL}/${app.iconUrl}`,
+            }}
+            borderRadius={8}
             alt={app.name}
           />
         </View>
         <View>
           <View columnGap={8} rowGap={8}>
-            <Text bold color="$white">
-              {app.name}
-            </Text>
+            <VStack>
+              <Text
+                bold
+                color="$white"
+                lineHeight={22}
+                fontSize={14}
+                numberOfLines={1}>
+                {app.name}
+              </Text>
+              <Text
+                bold
+                color="$white"
+                lineHeight={18}
+                fontSize={12}
+                numberOfLines={1}>
+                {app.bundleId}
+              </Text>
+            </VStack>
             <HStack rowGap={8} columnGap={8} alignItems="center">
               {/* {isLoading ? (
                 <>

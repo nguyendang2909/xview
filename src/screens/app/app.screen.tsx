@@ -13,10 +13,19 @@ import { useFetchStoreQuery } from '../../api';
 import { useAppSelector } from '../../hooks';
 import { AppItem } from './views/app-item';
 import { UpdateAppVersion } from './views/update-app-version';
-import { TouchableOpacity } from 'react-native';
+import {
+  Pressable,
+  Touchable,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { SCREENS } from '../../constants';
 // import { useTVEventHandler } from 'react-native';
 
 export const AppScreen = () => {
+  const [focusedAppId, setFocusedAppId] = useState<string | null>(null);
+  const navigation = useNavigation();
   const [focusedElement, setFocusedElement] = useState<string | null>(null);
 
   // const myTVEventHandler = evt => {
@@ -50,11 +59,11 @@ export const AppScreen = () => {
       <StatusBar barStyle="default" />
 
       <ScrollView px={16}>
-        {appCategories.map(category => {
+        {appCategories?.map(category => {
           return (
             <Fragment key={category.id}>
               <View pt={16}>
-                <Text bold fontSize={28} lineHeight={34}>
+                <Text bold fontSize={28} lineHeight={34} color="$white">
                   {category.name}
                 </Text>
               </View>
@@ -63,15 +72,31 @@ export const AppScreen = () => {
                   {category.apps.map(app => {
                     return (
                       <View
-                        as={TouchableOpacity}
+                        borderColor="$white"
+                        as={Pressable}
+                        // @ts-ignore
+                        onFocus={() => {
+                          setFocusedAppId(app.id);
+                        }}
+                        onPress={() => {
+                          navigation.navigate(SCREENS.APP_DETAIL, { app });
+                        }}
                         width="20%"
                         key={app.id}
                         px={8}
                         py={8}>
-                        <AppItem
-                          app={app}
-                          isFocused={focusedElement === app.id}
-                        />
+                        <View
+                          {...(focusedAppId === app.id
+                            ? {
+                                borderWidth: 2,
+                                borderColor: '$amber500',
+                              }
+                            : {
+                                borderWidth: 2,
+                                borderColor: '$white',
+                              })}>
+                          <AppItem app={app} />
+                        </View>
                       </View>
                     );
                   })}
