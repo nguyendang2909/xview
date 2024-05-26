@@ -32,7 +32,7 @@ export const AppScreen = () => {
   }, []);
 
   return (
-    <>
+    <View flex={1} bgColor="#303030">
       <StatusBar barStyle="default" />
 
       <ScrollView px={16}>
@@ -69,6 +69,6 @@ export const AppScreen = () => {
       </ScrollView>
 
       <UpdateAppVersion />
-    </>
+    </View>
   );
 };

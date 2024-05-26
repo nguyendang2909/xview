@@ -15,13 +15,13 @@ import {
   Text,
 } from '@gluestack-ui/themed';
 import { useRef, useState } from 'react';
-import CircularProgress from 'react-native-circular-progress-indicator';
+// import CircularProgress from 'react-native-circular-progress-indicator';
 import DeviceInfo from 'react-native-device-info';
 import RNFS from 'react-native-fs';
 import Toast from 'react-native-toast-message';
-import Config from 'src/config';
-import { useAppSelector } from 'src/hooks';
 import { v4 as uuidV4 } from 'uuid';
+import { Config } from '../../../config';
+import { useAppSelector } from '../../../hooks';
 
 export const UpdateAppVersion = () => {
   const [focusedElement, setFocusedElement] = useState<string | null>(null);
@@ -44,7 +44,8 @@ export const UpdateAppVersion = () => {
       fromUrl: appUrl,
       toFile: filePath,
       progress: res => {
-        const currentPercent = +(res.bytesWritten / res.contentLength).toFixed(2) * 100;
+        const currentPercent =
+          +(res.bytesWritten / res.contentLength).toFixed(2) * 100;
         setPercent(currentPercent);
       },
       progressDivider: 1,
@@ -68,8 +69,7 @@ export const UpdateAppVersion = () => {
       onClose={() => {
         setShowModal(showModal);
       }}
-      finalFocusRef={ref}
-    >
+      finalFocusRef={ref}>
       <ModalBackdrop />
       <ModalContent>
         <ModalHeader>
@@ -93,12 +93,13 @@ export const UpdateAppVersion = () => {
             onFocus={() => {
               setFocusedElement('cancel');
             }}
-            borderColor={focusedElement === 'cancel' ? '$textDark900' : undefined}
-            borderWidth={focusedElement === 'cancel' ? 2 : undefined}
-          >
+            borderColor={
+              focusedElement === 'cancel' ? '$textDark900' : undefined
+            }
+            borderWidth={focusedElement === 'cancel' ? 2 : undefined}>
             <ButtonText>Huỷ</ButtonText>
           </Button>
-          {percent ? (
+          {/* {percent ? (
             <CircularProgress
               radius={14}
               initialValue={0}
@@ -112,15 +113,16 @@ export const UpdateAppVersion = () => {
               size="sm"
               action="positive"
               onPress={handlePress}
-              borderColor={focusedElement === 'submit' ? '$textDark900' : undefined}
+              borderColor={
+                focusedElement === 'submit' ? '$textDark900' : undefined
+              }
               borderWidth={focusedElement === 'submit' ? 2 : undefined}
               onFocus={() => {
                 setFocusedElement('submit');
-              }}
-            >
+              }}>
               <ButtonText>Tải về</ButtonText>
             </Button>
-          )}
+          )} */}
         </ModalFooter>
       </ModalContent>
     </Modal>
