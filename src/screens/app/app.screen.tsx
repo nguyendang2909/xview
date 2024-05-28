@@ -26,7 +26,6 @@ import { SCREENS } from '../../constants';
 export const AppScreen = () => {
   const [focusedAppId, setFocusedAppId] = useState<string | null>(null);
   const navigation = useNavigation();
-  const [focusedElement, setFocusedElement] = useState<string | null>(null);
 
   // const myTVEventHandler = evt => {
   //   switch (evt.eventType) {

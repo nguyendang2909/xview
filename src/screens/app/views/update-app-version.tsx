@@ -22,20 +22,25 @@ import RNFS from 'react-native-fs';
 import Toast from 'react-native-toast-message';
 import { v4 as uuidV4 } from 'uuid';
 import { Config } from '../../../config';
-import { useAppSelector } from '../../../hooks';
+import { useFetchStoreQuery } from '../../../api';
 
 export const UpdateAppVersion = () => {
   const [focusedElement, setFocusedElement] = useState<string | null>(null);
   const currentAppVersion = DeviceInfo.getVersion();
-  const latestAppVersion = useAppSelector(s => s.app.store.version);
-  const url = useAppSelector(s => s.app.store.url);
-  const appUrl = Config.STORAGE_BASE_URL + '/' + url;
+
   const [showModal, setShowModal] = useState(true);
   const [percent, setPercent] = useState<number>(0);
 
+  const { data } = useFetchStoreQuery();
+
+  const latestAppVersion = data?.version;
   const ref = useRef(null);
 
-  if (currentAppVersion === latestAppVersion) {
+  const appUrl = data?.url
+    ? Config.STORAGE_BASE_URL + '/' + data?.url
+    : undefined;
+
+  if (!latestAppVersion || !appUrl || currentAppVersion !== latestAppVersion) {
     return null;
   }
 
@@ -100,30 +105,20 @@ export const UpdateAppVersion = () => {
             borderWidth={focusedElement === 'cancel' ? 2 : undefined}>
             <ButtonText>Huỷ</ButtonText>
           </Button>
-          {/* {percent ? (
-            <CircularProgress
-              radius={14}
-              initialValue={0}
-              showProgressValue={false}
-              value={percent}
-              activeStrokeColor={'#2465FD'}
-              activeStrokeSecondaryColor={'#C25AFF'}
-            />
-          ) : (
-            <Button
-              size="sm"
-              action="positive"
-              onPress={handlePress}
-              borderColor={
-                focusedElement === 'submit' ? '$textDark900' : undefined
-              }
-              borderWidth={focusedElement === 'submit' ? 2 : undefined}
-              onFocus={() => {
-                setFocusedElement('submit');
-              }}>
-              <ButtonText>Tải về</ButtonText>
-            </Button>
-          )} */}
+          <Button
+            size="sm"
+            action="positive"
+            onPress={handlePress}
+            borderColor={
+              focusedElement === 'submit' ? '$textDark900' : undefined
+            }
+            borderWidth={focusedElement === 'submit' ? 2 : undefined}
+            onFocus={() => {
+              setFocusedElement('submit');
+            }}
+            disabled={!!percent}>
+            <ButtonText>{percent ? 'Đang tải' : 'Tải về'}</ButtonText>
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
