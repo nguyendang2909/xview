@@ -14,7 +14,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'xview' do
+target 'XviewStore' do
   config = use_native_modules!
 
   use_react_native!(
@@ -23,7 +23,7 @@ target 'xview' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'xviewTests' do
+  target 'XviewStoreTests' do
     inherit! :complete
     # Pods for testing
   end
