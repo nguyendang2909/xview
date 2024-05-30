@@ -40,7 +40,14 @@ export const UpdateAppVersion = () => {
     ? Config.STORAGE_BASE_URL + '/' + data?.url
     : undefined;
 
-  if (!latestAppVersion || !appUrl || currentAppVersion !== latestAppVersion) {
+  console.log(
+    11111,
+    currentAppVersion,
+    latestAppVersion,
+    currentAppVersion !== latestAppVersion,
+  );
+
+  if (currentAppVersion === latestAppVersion) {
     return null;
   }
 
