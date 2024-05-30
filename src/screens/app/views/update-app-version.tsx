@@ -6,7 +6,6 @@ import {
   CloseIcon,
   Heading,
   Icon,
-  Modal,
   ModalBackdrop,
   ModalBody,
   ModalCloseButton,
@@ -14,6 +13,7 @@ import {
   ModalFooter,
   ModalHeader,
   Text,
+  View,
 } from '@gluestack-ui/themed';
 import { useRef, useState } from 'react';
 // import CircularProgress from 'react-native-circular-progress-indicator';
@@ -23,6 +23,7 @@ import Toast from 'react-native-toast-message';
 import { v4 as uuidV4 } from 'uuid';
 import { Config } from '../../../config';
 import { useFetchStoreQuery } from '../../../api';
+import { Modal } from 'react-native';
 
 export const UpdateAppVersion = () => {
   const [focusedElement, setFocusedElement] = useState<string | null>(null);
@@ -34,25 +35,18 @@ export const UpdateAppVersion = () => {
   const { data } = useFetchStoreQuery();
 
   const latestAppVersion = data?.version;
-  const ref = useRef(null);
 
   const appUrl = data?.url
     ? Config.STORAGE_BASE_URL + '/' + data?.url
     : undefined;
 
-  console.log(
-    11111,
-    currentAppVersion,
-    latestAppVersion,
-    currentAppVersion !== latestAppVersion,
-  );
-
-  if (currentAppVersion === latestAppVersion) {
+  if (!appUrl || !latestAppVersion || currentAppVersion === latestAppVersion) {
     return null;
   }
 
   const handlePress = async () => {
     const filePath = RNFS.DocumentDirectoryPath + '/' + uuidV4() + '.apk';
+    console.log(111, appUrl);
     const download = RNFS.downloadFile({
       fromUrl: appUrl,
       toFile: filePath,
@@ -65,6 +59,7 @@ export const UpdateAppVersion = () => {
     });
     download.promise
       .then(result => {
+        setShowModal(false);
         if (result.statusCode >= 400) {
           Toast.show({ text1: 'Lỗi khi tải, vui lòng thử lại' });
           return;
@@ -78,18 +73,17 @@ export const UpdateAppVersion = () => {
 
   return (
     <Modal
-      isOpen={showModal}
-      onClose={() => {
-        setShowModal(showModal);
-      }}
-      finalFocusRef={ref}>
-      <ModalBackdrop />
-      <ModalContent>
+      visible={!!showModal}
+      animationType="slide"
+      // isOpen={showModal}
+      // onClose={() => {
+      //   setShowModal(showModal);
+      // }}
+      // finalFocusRef={ref}
+    >
+      <View flex={1}>
         <ModalHeader>
           <Heading size="lg">Xview store</Heading>
-          <ModalCloseButton>
-            <Icon as={CloseIcon} />
-          </ModalCloseButton>
         </ModalHeader>
         <ModalBody>
           <Text>Đã có phiên bản mới của Xview store. Bạn có muốn tải về?</Text>
@@ -127,7 +121,7 @@ export const UpdateAppVersion = () => {
             <ButtonText>{percent ? 'Đang tải' : 'Tải về'}</ButtonText>
           </Button>
         </ModalFooter>
-      </ModalContent>
+      </View>
     </Modal>
   );
 };
