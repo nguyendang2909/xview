@@ -78,7 +78,7 @@ export const AppDetailScreen: React.FC<FCProps> = ({ route }) => {
   };
 
   return (
-    <View flex={1} bgColor="#303030" px={32} py={32}>
+    <View flex={1} bgColor="black" px={32} py={32}>
       <VStack>
         <HStack justifyContent="space-between">
           <View>
