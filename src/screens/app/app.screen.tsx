@@ -59,23 +59,23 @@ export const AppScreen = () => {
   return (
     <View flex={1} bgColor="black">
       <StatusBar barStyle="default" />
-      <View alignItems="center" width="$full" justifyContent="center">
-        <View width="$2/3">
-          <ImageBackground
-            width="100%"
-            aspectRatio={14 / 1}
-            alt="asdas"
-            // height="100%"
-            source={require('../../../assets/banners/banner.jpg')}
-          />
-        </View>
-      </View>
 
       <ScrollView
         px={16}
         mb={16}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
+        <View alignItems="center" width="$full" justifyContent="center">
+          <View width="$2/3">
+            <ImageBackground
+              width="100%"
+              aspectRatio={14 / 1}
+              alt="asdas"
+              // height="100%"
+              source={require('../../../assets/banners/banner.jpg')}
+            />
+          </View>
+        </View>
         {appCategories?.map(category => {
           return (
             <Fragment key={category.id}>
