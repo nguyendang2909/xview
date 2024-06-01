@@ -3,9 +3,11 @@ import RNApkInstaller from '@dominicvonk/react-native-apk-installer';
 import {
   Divider,
   HStack,
+  Image,
   ScrollView,
   StatusBar,
   Text,
+  VStack,
   View,
 } from '@gluestack-ui/themed';
 import { Fragment, useEffect, useState } from 'react';
@@ -21,6 +23,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SCREENS } from '../../constants';
+import { ImageBackground } from '@gluestack-ui/themed';
 // import { useTVEventHandler } from 'react-native';
 
 export const AppScreen = () => {
@@ -54,15 +57,30 @@ export const AppScreen = () => {
   }, []);
 
   return (
-    <View flex={1} bgColor="#303030">
+    <View flex={1} bgColor="black">
       <StatusBar barStyle="default" />
+      <View alignItems="center" width="$full" justifyContent="center">
+        <View width="$2/3">
+          <ImageBackground
+            width="100%"
+            aspectRatio={14 / 1}
+            alt="asdas"
+            // height="100%"
+            source={require('../../../assets/banners/banner.jpg')}
+          />
+        </View>
+      </View>
 
-      <ScrollView px={16}>
+      <ScrollView
+        px={16}
+        mb={16}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         {appCategories?.map(category => {
           return (
             <Fragment key={category.id}>
               <View pt={16}>
-                <Text bold fontSize={28} lineHeight={34} color="$white">
+                <Text bold fontSize="$lg" lineHeight={34} color="$white">
                   {category.name}
                 </Text>
               </View>
