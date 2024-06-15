@@ -9,4 +9,8 @@ export declare namespace AppStore {
   type AppState = {
     store: ApiResponse.AppStore;
   };
+
+  type CacheState = {
+    focusedAppId: string | null;
+  };
 }
