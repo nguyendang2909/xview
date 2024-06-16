@@ -1,6 +1,5 @@
-import { Divider, ScrollView, Text, View } from '@gluestack-ui/themed';
+import { ScrollView, View } from '@gluestack-ui/themed';
 import { useAppSelector } from '../../../hooks';
-import { AppItem } from './app-item';
 import React from 'react';
 import { CategoryItem } from './category/category-item';
 

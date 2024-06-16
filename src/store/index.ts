@@ -15,13 +15,11 @@ import { thunk } from 'redux-thunk';
 
 import { api } from '../api';
 import { appReducer } from './app/app.store';
-import { cacheReducer } from './app/cache.store';
 
 const reducers = combineReducers({
   // theme,
   [api.reducerPath]: api.reducer,
   app: appReducer,
-  cache: cacheReducer,
 });
 
 const persistedReducer = persistReducer(

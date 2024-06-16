@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   HStack,
   Image,
@@ -11,29 +11,21 @@ import {
 import { FC } from 'react';
 import { Config } from '../../../config';
 import { ApiResponse } from '../../../types';
-import { useAppSelector } from '../../../hooks';
-import {
-  selectFocusedAppId,
-  setFocusAppId,
-} from '../../../store/app/cache.store';
-import { dispatch } from '../../../store';
 import { SCREENS } from '../../../constants';
 import { navigate } from '../../../navigations/navigation-ref';
 
 export const AppItem: FC<{
   app: ApiResponse.App;
 }> = ({ app }) => {
-  const focusedAppId = useAppSelector(selectFocusedAppId);
-
-  const isFocused = useMemo(
-    () => focusedAppId === app.id,
-    [app.id, focusedAppId],
-  );
+  const [isFocused, setFocuced] = useState<boolean>(false);
 
   const handleFocus = useCallback(() => {
-    console.log(1111);
-    dispatch(setFocusAppId(app.id));
-  }, [app.id]);
+    setFocuced(true);
+  }, []);
+
+  const handleBlur = useCallback(() => {
+    setFocuced(false);
+  }, []);
 
   const handlePress = useCallback(() => {
     navigate(SCREENS.APP_DETAIL, { app });
@@ -49,6 +41,7 @@ export const AppItem: FC<{
         borderRadius={24}
         overflow="hidden"
         onFocus={handleFocus}
+        onBlur={handleBlur}
         onPress={handlePress}
         borderWidth={1}
         borderColor={isFocused ? '$blue700' : '$white'}>
