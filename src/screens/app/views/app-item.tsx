@@ -13,13 +13,12 @@ import { Config } from '../../../config';
 import { ApiResponse } from '../../../types';
 import { useAppSelector } from '../../../hooks';
 import {
-  cacheActions,
   selectFocusedAppId,
   setFocusAppId,
 } from '../../../store/app/cache.store';
 import { dispatch } from '../../../store';
 import { SCREENS } from '../../../constants';
-import { navigate, navigationRef } from '../../../navigations/navigation-ref';
+import { navigate } from '../../../navigations/navigation-ref';
 
 export const AppItem: FC<{
   app: ApiResponse.App;

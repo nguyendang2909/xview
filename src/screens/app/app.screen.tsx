@@ -1,19 +1,15 @@
 import React from 'react';
 import RNApkInstaller from '@dominicvonk/react-native-apk-installer';
 import { Divider, ScrollView, Text, View } from '@gluestack-ui/themed';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useFetchStoreQuery } from '../../api';
 import { useAppSelector } from '../../hooks';
 import { AppItem } from './views/app-item';
 import { UpdateAppVersion } from './views/update-app-version';
-import { Pressable } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { SCREENS } from '../../constants';
+
 import { ImageBackground } from '@gluestack-ui/themed';
 
 export const AppScreen = () => {
-  const navigation = useNavigation();
-
   const checkInstallAppPermission = async () => {
     const permission = await RNApkInstaller.haveUnknownAppSourcesPermission();
     if (!permission) {
@@ -49,8 +45,8 @@ export const AppScreen = () => {
         </View>
         {appCategories?.map(category => {
           return (
-            <Fragment key={category.id}>
-              <View pt={16}>
+            <View key={category.id}>
+              <View pt={16} px={8}>
                 <Text bold fontSize="$lg" lineHeight={34} color="$white">
                   {category.name}
                 </Text>
@@ -63,7 +59,7 @@ export const AppScreen = () => {
                 </View>
               </View>
               <Divider />
-            </Fragment>
+            </View>
           );
         })}
       </ScrollView>
