@@ -4,7 +4,6 @@ import { Divider, ScrollView, Text, View } from '@gluestack-ui/themed';
 
 import { useAppSelector } from '../../hooks';
 import { AppItem } from './views/app-item';
-import { UpdateAppVersion } from './views/update-app-version';
 
 import { HeaderApps } from './views/header/header-apps';
 
@@ -39,8 +38,6 @@ export const AppScreen = () => {
           );
         })}
       </ScrollView>
-
-      <UpdateAppVersion />
     </View>
   );
 };
