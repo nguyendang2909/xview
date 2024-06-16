@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   HStack,
   Image,
@@ -25,6 +25,11 @@ export const AppItem: FC<{
 }> = ({ app }) => {
   const focusedAppId = useAppSelector(selectFocusedAppId);
 
+  const isFocused = useMemo(
+    () => focusedAppId === app.id,
+    [app.id, focusedAppId],
+  );
+
   const handleFocus = useCallback(() => {
     dispatch(setFocusAppId(app.id));
   }, [app.id]);
@@ -34,17 +39,14 @@ export const AppItem: FC<{
   }, [app]);
 
   return (
-    <Pressable
-      borderColor="$white"
-      // @ts-ignore
-      onFocus={handleFocus}
-      onPress={handlePress}
-      width="20%"
-      key={app.id}
-      px={8}
-      py={8}>
-      <View
-        {...(focusedAppId === app.id
+    <View width="20%" px={8} py={8} aspectRatio={1.5}>
+      <Pressable
+        flex={1}
+        borderRadius={24}
+        overflow="hidden"
+        onFocus={handleFocus}
+        onPress={handlePress}
+        {...(isFocused
           ? {
               borderWidth: 2,
               borderColor: '$amber500',
@@ -53,24 +55,25 @@ export const AppItem: FC<{
               borderWidth: 2,
               borderColor: '$white',
             })}>
+        <View width="$full" height="$3/5">
+          <ImageBackground
+            w="$full"
+            h="$full"
+            resizeMode="stretch"
+            flex={1}
+            source={{
+              uri: `${Config.STORAGE_BASE_URL}/${app.bannerUrl}`,
+            }}
+            alt={app.name}
+          />
+        </View>
         <View flex={1}>
-          <View flex={1}>
-            <ImageBackground
-              resizeMode="cover"
-              flex={1}
-              style={{ width: '100%', height: '100%' }}
-              aspectRatio={2 / 1}
-              source={{
-                uri: `${Config.STORAGE_BASE_URL}/${app.bannerUrl}`,
-              }}
-              alt={app.name}
-            />
-          </View>
-          <HStack flex={1} gap={8} px={8} py={8}>
-            <View>
+          <HStack flex={1} gap={8} px={8}>
+            <View h="$full" alignItems="center" justifyContent="center">
               <Image
-                height={40}
-                width={40}
+                resizeMode="stretch"
+                h="$2/3"
+                aspectRatio={3 / 2}
                 source={{
                   uri: `${Config.STORAGE_BASE_URL}/${app.iconUrl}`,
                 }}
@@ -103,7 +106,7 @@ export const AppItem: FC<{
             </View>
           </HStack>
         </View>
-      </View>
-    </Pressable>
+      </Pressable>
+    </View>
   );
 };
