@@ -1,8 +1,9 @@
 import { Divider, ScrollView, Text, View } from '@gluestack-ui/themed';
 import { useAppSelector } from '../../../hooks';
 import { AppItem } from './app-item';
+import React from 'react';
 
-export const ContentApps = () => {
+export const ContentApps: React.FC = () => {
   const appCategories = useAppSelector(s => s.app.store.categories);
 
   return (
