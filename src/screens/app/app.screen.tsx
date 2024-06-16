@@ -8,6 +8,7 @@ import { AppItem } from './views/app-item';
 import { UpdateAppVersion } from './views/update-app-version';
 
 import { ImageBackground } from '@gluestack-ui/themed';
+import { HeaderApps } from './views/header/header-apps';
 
 export const AppScreen = () => {
   const checkInstallAppPermission = async () => {
@@ -27,22 +28,12 @@ export const AppScreen = () => {
 
   return (
     <View flex={1} bgColor="black">
+      <HeaderApps />
       <ScrollView
         px={16}
         mb={16}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
-        <View alignItems="center" width="$full" justifyContent="center">
-          <View width="$2/3">
-            <ImageBackground
-              w="100%"
-              aspectRatio={14 / 1}
-              alt="asdas"
-              // height="100%"
-              source={require('../../../assets/banners/banner.jpg')}
-            />
-          </View>
-        </View>
         {appCategories?.map(category => {
           return (
             <View key={category.id}>
