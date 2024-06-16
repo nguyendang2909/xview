@@ -31,6 +31,7 @@ export const AppItem: FC<{
   );
 
   const handleFocus = useCallback(() => {
+    console.log(1111);
     dispatch(setFocusAppId(app.id));
   }, [app.id]);
 

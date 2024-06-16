@@ -10,7 +10,7 @@ import {
   View,
 } from '@gluestack-ui/themed';
 import React, { useEffect, useState } from 'react';
-import { Dimensions, useTVEventHandler } from 'react-native';
+import { Dimensions } from 'react-native';
 import RNFS from 'react-native-fs';
 import { AppStackScreenProps } from '../../types/navigation.type';
 import { Config } from '../../config';
@@ -23,19 +23,9 @@ type FCProps = AppStackScreenProps<'APP_DETAIL'>;
 
 export const AppDetailScreen: React.FC<FCProps> = ({ route }) => {
   const [isFocused, setFocus] = useState<boolean>();
-  const [isLoading, setLoading] = useState<boolean>(false);
   const [percent, setPercent] = useState<number>(0);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const app = route.params.app;
-  const myTVEventHandler = evt => {
-    // switch (evt.eventType) {
-    //   case 'up':
-    //     setFocusedElement();
-    // }
-    // console.log(2222, evt.eventType);
-    // setLastEventType(evt.eventType);
-  };
-
-  useTVEventHandler(myTVEventHandler);
 
   const { width: screenWidth } = Dimensions.get('screen');
 
@@ -77,6 +67,10 @@ export const AppDetailScreen: React.FC<FCProps> = ({ route }) => {
       });
   };
 
+  const handleFocus = () => {
+    setFocus(true);
+  };
+
   return (
     <View flex={1} bgColor="black" px={32} py={32}>
       <VStack>
@@ -103,11 +97,10 @@ export const AppDetailScreen: React.FC<FCProps> = ({ route }) => {
           <Button
             size="sm"
             onPress={handlePress}
-            borderColor={isFocused ? '$amber100' : undefined}
-            borderWidth={isFocused ? 2 : undefined}
-            onFocus={() => {
-              setFocus(true);
-            }}>
+            borderColor={isFocused ? '$white' : undefined}
+            borderWidth={isFocused ? 1 : undefined}
+            onFocus={handleFocus}
+            isDisabled={isLoading || !!percent}>
             <ButtonText>Cài đặt</ButtonText>
           </Button>
         </HStack>
