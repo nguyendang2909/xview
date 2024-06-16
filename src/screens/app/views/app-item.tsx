@@ -39,22 +39,18 @@ export const AppItem: FC<{
   }, [app]);
 
   return (
-    <View width="20%" px={8} py={8} aspectRatio={1.5}>
+    <View
+      width="20%"
+      {...(isFocused ? { px: 0, py: 0 } : { px: 8, py: 8 })}
+      aspectRatio={1.5}>
       <Pressable
         flex={1}
         borderRadius={24}
         overflow="hidden"
         onFocus={handleFocus}
         onPress={handlePress}
-        {...(isFocused
-          ? {
-              borderWidth: 2,
-              borderColor: '$amber500',
-            }
-          : {
-              borderWidth: 2,
-              borderColor: '$white',
-            })}>
+        borderWidth={1}
+        borderColor={isFocused ? '$blue700' : '$white'}>
         <View width="$full" height="$3/5">
           <ImageBackground
             w="$full"
