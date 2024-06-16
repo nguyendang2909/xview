@@ -1,30 +1,15 @@
 import React from 'react';
-import RNApkInstaller from '@dominicvonk/react-native-apk-installer';
+
 import { Divider, ScrollView, Text, View } from '@gluestack-ui/themed';
-import { Fragment, useEffect } from 'react';
-import { useFetchStoreQuery } from '../../api';
+
 import { useAppSelector } from '../../hooks';
 import { AppItem } from './views/app-item';
 import { UpdateAppVersion } from './views/update-app-version';
 
-import { ImageBackground } from '@gluestack-ui/themed';
 import { HeaderApps } from './views/header/header-apps';
 
 export const AppScreen = () => {
-  const checkInstallAppPermission = async () => {
-    const permission = await RNApkInstaller.haveUnknownAppSourcesPermission();
-    if (!permission) {
-      RNApkInstaller.showUnknownAppSourcesPermission();
-    }
-  };
-
-  useFetchStoreQuery();
-
   const appCategories = useAppSelector(s => s.app.store.categories);
-
-  useEffect(() => {
-    checkInstallAppPermission();
-  }, []);
 
   return (
     <View flex={1} bgColor="black">
