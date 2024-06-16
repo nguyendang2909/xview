@@ -21,3 +21,5 @@ export function goBack<RouteName extends keyof AppStackParamList>(
   }
   navigationRef.navigate(...args);
 }
+
+export const { navigate } = navigationRef;
