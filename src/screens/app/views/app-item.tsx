@@ -77,28 +77,27 @@ export const AppItem: FC<{
                 alt={app.name}
               />
             </View>
-            <View>
-              <View columnGap={8} rowGap={8}>
-                <VStack>
-                  <Text
-                    bold
-                    color="$white"
-                    lineHeight={22}
-                    fontSize={14}
-                    numberOfLines={1}>
-                    {app.name}
-                  </Text>
-                  <Text
-                    bold
-                    color="$white"
-                    lineHeight={18}
-                    fontSize={12}
-                    numberOfLines={1}>
-                    {app.bundleId}
-                  </Text>
-                </VStack>
-                <HStack rowGap={8} columnGap={8} alignItems="center" />
-              </View>
+
+            <View h="$full" justifyContent="center" alignItems="center">
+              <VStack>
+                <Text
+                  bold
+                  color="$white"
+                  fontSize={12}
+                  lineHeight={12}
+                  numberOfLines={1}>
+                  {app.name}
+                </Text>
+                <Text
+                  bold
+                  color="$white"
+                  fontSize={10}
+                  lineHeight={10}
+                  numberOfLines={1}>
+                  {app.bundleId}
+                </Text>
+              </VStack>
+              <HStack rowGap={8} columnGap={8} alignItems="center" />
             </View>
           </HStack>
         </View>
